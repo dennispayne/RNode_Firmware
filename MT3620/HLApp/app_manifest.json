@@ -1,0 +1,13 @@
+{
+  "SchemaVersion": 1,
+  "Name": "RNodeHLApp",
+  "ComponentId": "HLAPP-COMPONENT-ID-HERE",
+  "EntryPoint": "/bin/app",
+  "CmdArgs": [],
+  "Capabilities": {
+    "AllowedApplicationConnections": [ "RTAPP-COMPONENT-ID-HERE" ],
+    "AllowedConnections": [ "YOUR-IOTHUB-NAME.azure-devices.net" ],
+    "DeviceAuthentication": "YOUR-TENANT-ID-HERE"
+  },
+  "ApplicationType": "Default"
+}

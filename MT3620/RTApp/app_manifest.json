@@ -1,0 +1,13 @@
+{
+  "SchemaVersion": 1,
+  "Name": "RNodeRTApp",
+  "ComponentId": "RTAPP-COMPONENT-ID-HERE",
+  "EntryPoint": "/bin/app",
+  "CmdArgs": [],
+  "Capabilities": {
+    "AllowedApplicationConnections": [ "HLAPP-COMPONENT-ID-HERE" ],
+    "Uart": [ "ISU0" ],
+    "Gpio": [ 8, 9, 0, 1, 2 ]
+  },
+  "ApplicationType": "RealTimeCapable"
+}

@@ -7,3 +7,12 @@ Release/*.zip
 Release/*.json
 Console/build
 build/*
+
+# MT3620 build artifacts
+MT3620/RTApp/build/
+MT3620/HLApp/build/
+MT3620/**/CMakeFiles/
+MT3620/**/*.imagepackage
+MT3620/**/.ninja_deps
+MT3620/**/.ninja_log
+MT3620/**/cmake_install.cmake
