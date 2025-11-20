@@ -106,7 +106,7 @@ make release-hashes   # Generate release hash checksums
 ### License Compliance
 - This project is licensed under **GNU General Public License v3.0**
 - All code contributions must be compatible with GPLv3
-- The SX1276 driver is under MIT License (Copyright © 2018 Sandeep Mistry / Mark Qvist)
+- The LoRa modem drivers (sx127x.cpp, sx126x.cpp, sx128x.cpp) are under MIT License (Copyright Sandeep Mistry, Mark Qvist and Jacob Eva)
 - Maintain proper copyright notices and license headers
 
 ### Security Considerations
