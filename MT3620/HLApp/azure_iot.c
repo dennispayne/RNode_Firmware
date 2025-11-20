@@ -72,6 +72,8 @@ bool Azure_Initialize(void) {
     // Use Azure Sphere DPS (Device Provisioning Service) for authentication
     // This provides passwordless, certificate-based authentication
     
+    // CONFIGURATION REQUIRED: Replace "YOUR-SCOPE-ID-HERE" with your actual
+    // DPS ID Scope from Azure IoT Hub Device Provisioning Service
     AZURE_SPHERE_PROV_RETURN_VALUE prov_result =
         IoTHubDeviceClient_LL_CreateWithAzureSphereDeviceAuthProvisioning(
             "global.azure-devices-provisioning.net",  // DPS global endpoint

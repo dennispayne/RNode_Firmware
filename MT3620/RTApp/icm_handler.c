@@ -14,7 +14,8 @@ bool ICM_Initialize(void) {
     Log_Debug("ICM: Initializing inter-core messaging\n");
     
     // Create socket for ICM communication with HLApp
-    // The component ID of HLApp must be specified in app_manifest.json
+    // CONFIGURATION REQUIRED: Replace the Component ID in app_manifest.json
+    // with the actual HLApp Component ID before deployment
     icm_socket_fd = Application_Connect("HLAPP-COMPONENT-ID-HERE");
     
     if (icm_socket_fd < 0) {
