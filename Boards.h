@@ -21,11 +21,13 @@
   #define PLATFORM_AVR        0x90
   #define PLATFORM_ESP32      0x80
   #define PLATFORM_NRF52      0x70
+  #define PLATFORM_MT3620     0x60
 
   #define MCU_1284P           0x91
   #define MCU_2560            0x92
   #define MCU_ESP32           0x81
   #define MCU_NRF52           0x71
+  #define MCU_MT3620          0x61
 
   // Products, boards and models ////
   #define PRODUCT_RNODE       0x03 // RNode devices
@@ -122,6 +124,11 @@
   #define MODEL_FE            0xFE // Homebrew board, max 17dBm output power
   #define MODEL_FF            0xFF // Homebrew board, max 14dBm output power
 
+  #define PRODUCT_MT3620      0x20 // Azure Sphere MT3620 devices
+  #define BOARD_MT3620        0x60
+  #define MODEL_21            0x21 // MT3620, 433 MHz
+  #define MODEL_22            0x22 // MT3620, 868 MHz
+
   #if defined(__AVR_ATmega1284P__)
     #define PLATFORM PLATFORM_AVR
     #define MCU_VARIANT MCU_1284P
@@ -135,6 +142,9 @@
     #include <variant.h>
     #define PLATFORM PLATFORM_NRF52
     #define MCU_VARIANT MCU_NRF52
+  #elif defined(_AZURE_SPHERE_) || defined(__MT3620__)
+    #define PLATFORM PLATFORM_MT3620
+    #define MCU_VARIANT MCU_MT3620
   #else
       #error "The firmware cannot be compiled for the selected MCU variant"
   #endif
@@ -887,6 +897,45 @@
 
     #else
       #error An unsupported nRF board was selected. Cannot compile RNode firmware.
+    #endif
+
+  #elif MCU_VARIANT == MCU_MT3620
+    // MT3620 Azure Sphere configuration
+    // Note: This is for the RTApp (M4 core) only
+    // The HLApp (A7 core) is built separately
+    #if BOARD_MODEL == BOARD_MT3620
+      #define HAS_EEPROM false
+      #define HAS_DISPLAY false
+      #define HAS_BLUETOOTH false
+      #define HAS_BLE false
+      #define HAS_CONSOLE false
+      #define HAS_PMU false
+      #define HAS_NP false
+      #define HAS_SD false
+      #define HAS_TCXO false
+      #define HAS_BUSY false
+      #define HAS_INPUT false
+      #define CONFIG_UART_BUFFER_SIZE 2048
+      #define CONFIG_QUEUE_SIZE 4096
+      #define CONFIG_QUEUE_MAX_LENGTH 100
+      #define EEPROM_SIZE 256
+      #define EEPROM_OFFSET EEPROM_SIZE-EEPROM_RESERVED
+
+      // MT3620 uses ISU (I/O Subsystem Units) for UART
+      // Pin assignments are managed through app_manifest.json
+      // These are logical identifiers for the MT3620 RTApp
+      const int pin_cs = 0;
+      const int pin_reset = 1;
+      const int pin_dio = 2;
+      const int pin_led_rx = 8;
+      const int pin_led_tx = 9;
+      const int pin_busy = -1;
+      const int pin_tcxo_enable = -1;
+      const int pin_rxen = -1;
+      const int pin_txen = -1;
+
+    #else
+      #error An unsupported MT3620 board configuration was selected.
     #endif
 
   #endif

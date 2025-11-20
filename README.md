@@ -82,9 +82,21 @@ The RNode Firmware supports the following boards:
 - Homebrew RNodes based on ATmega2560 boards
 - Homebrew RNodes based on Adafruit Feather ESP32 boards
 - Homebrew RNodes based on generic ESP32 boards
+- **Seeed Studio Azure Sphere MT3620** (Secure, cloud-connected deployment)
 
 ## Supported Transceiver Modules
 The RNode Firmware supports all transceiver modules based on Semtech **SX1276**, **SX1278**, **SX1262**, **SX1268** and **SX1280** chips, that have an **SPI interface** and expose the relevant **DIO** interrupt pins from the chip.
+
+## Azure Sphere MT3620 - Secure Cloud-Connected RNode
+
+The **MT3620** implementation provides a unique security-focused architecture with complete data separation:
+
+- **Split-Function Design:** Separate real-time (M4 core) and high-level (A7 core) applications
+- **Security Model:** Local radio traffic never touches the cloud - only operational telemetry
+- **Cloud Management:** Secure device management via Azure IoT Hub with passwordless authentication
+- **Complete Isolation:** Radio processing has NO internet access, cloud connectivity has NO payload access
+
+See the [MT3620 README](MT3620/README.md) for detailed setup and deployment instructions.
 
 ## Getting Started Fast
 You can download and flash the firmware to all the supported boards using the [RNode Config Utility](https://github.com/markqvist/rnodeconfigutil). All firmware releases are now handled and installed directly through the `rnodeconf` utility, which is included in the `rns` package. It can be installed via `pip`:
