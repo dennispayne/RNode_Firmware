@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: ✨ Feature Request or Idea
-    url: https://github.com/markqvist/Reticulum/discussions/new?category=ideas
-    about: Propose and discuss features and ideas
+    url: https://github.com/dennispayne/RNode_Firmware/issues/new?labels=request
+    about: Request a new idea or feature
   - name: 💬 Questions, Help & Discussion
     about: Ask anything, or get help
     url: https://github.com/markqvist/Reticulum/discussions/new/choose
