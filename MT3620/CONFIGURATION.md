@@ -84,35 +84,31 @@ Edit `MT3620/HLApp/app_manifest.json`:
 }
 ```
 
-### Step 3: Update RTApp ICM Handler
+### Step 3: Update Shared Configuration
 
-Edit `MT3620/RTApp/icm_handler.c`, find this line:
-
-```c
-icm_socket_fd = Application_Connect("HLAPP-COMPONENT-ID-HERE");
-```
-
-Replace with your HLApp Component ID:
+Edit `MT3620/common/config.h`:
 
 ```c
-icm_socket_fd = Application_Connect("87654321-4321-8765-ba09-fedcba987654");
+// Component IDs for Inter-Core Messaging
+#define RTAPP_COMPONENT_ID "REPLACE-WITH-RTAPP-UUID"
+#define HLAPP_COMPONENT_ID "REPLACE-WITH-HLAPP-UUID"
+
+// Azure IoT Hub configuration
+#define AZURE_DPS_SCOPE_ID "YOUR-SCOPE-ID-HERE"
 ```
 
-### Step 4: Update HLApp Azure IoT Configuration
-
-Edit `MT3620/HLApp/azure_iot.c`, find this line:
+Replace with your actual values:
 
 ```c
-"YOUR-SCOPE-ID-HERE",  // DPS ID Scope
+// Component IDs for Inter-Core Messaging
+#define RTAPP_COMPONENT_ID "12345678-1234-5678-90ab-cdef01234567"
+#define HLAPP_COMPONENT_ID "87654321-4321-8765-ba09-fedcba987654"
+
+// Azure IoT Hub configuration
+#define AZURE_DPS_SCOPE_ID "0ne00ABC123"
 ```
 
-Replace with your DPS ID Scope:
-
-```c
-"0ne00ABC123",  // DPS ID Scope from Azure IoT Hub DPS
-```
-
-### Step 5: Configure Hardware Pins (Optional)
+### Step 4: Configure Hardware Pins (Optional)
 
 If your LoRa module is connected to different GPIOs, update the pin assignments in `MT3620/RTApp/app_manifest.json`:
 
@@ -144,14 +140,14 @@ Available ISUs: ISU0, ISU1, ISU2, ISU3
 Before building and deploying:
 
 - [ ] Generated two unique UUIDs
-- [ ] Updated RTApp ComponentId
-- [ ] Updated RTApp AllowedApplicationConnections
-- [ ] Updated HLApp ComponentId
-- [ ] Updated HLApp AllowedApplicationConnections
+- [ ] Updated RTApp ComponentId in app_manifest.json
+- [ ] Updated RTApp AllowedApplicationConnections in app_manifest.json
+- [ ] Updated HLApp ComponentId in app_manifest.json
+- [ ] Updated HLApp AllowedApplicationConnections in app_manifest.json
 - [ ] Updated HLApp AllowedConnections with IoT Hub hostname
 - [ ] Updated HLApp DeviceAuthentication with Tenant ID
-- [ ] Updated RTApp icm_handler.c with HLApp UUID
-- [ ] Updated HLApp azure_iot.c with DPS Scope ID
+- [ ] Updated common/config.h with Component IDs
+- [ ] Updated common/config.h with DPS Scope ID
 - [ ] Verified GPIO pin assignments match hardware
 - [ ] Verified UART ISU matches hardware connection
 
@@ -181,11 +177,10 @@ sed -i "s/RTAPP-COMPONENT-ID-HERE/$RTAPP_UUID/g" MT3620/HLApp/app_manifest.json
 sed -i "s/YOUR-IOTHUB-NAME.azure-devices.net/$IOTHUB_NAME/g" MT3620/HLApp/app_manifest.json
 sed -i "s/YOUR-TENANT-ID-HERE/$TENANT_ID/g" MT3620/HLApp/app_manifest.json
 
-# Update ICM handler
-sed -i "s/HLAPP-COMPONENT-ID-HERE/$HLAPP_UUID/g" MT3620/RTApp/icm_handler.c
-
-# Update Azure IoT
-sed -i "s/YOUR-SCOPE-ID-HERE/$DPS_SCOPE/g" MT3620/HLApp/azure_iot.c
+# Update common configuration
+sed -i "s/RTAPP-COMPONENT-ID-HERE/$RTAPP_UUID/g" MT3620/common/config.h
+sed -i "s/HLAPP-COMPONENT-ID-HERE/$HLAPP_UUID/g" MT3620/common/config.h
+sed -i "s/YOUR-SCOPE-ID-HERE/$DPS_SCOPE/g" MT3620/common/config.h
 
 echo "Configuration complete!"
 ```

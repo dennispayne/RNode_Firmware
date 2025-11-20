@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License v3.0
 
 #include "azure_iot.h"
+#include "../common/config.h"
 #include <applibs/log.h>
 #include <applibs/networking.h>
 #include <azureiot/iothub_device_client_ll.h>
@@ -72,12 +73,11 @@ bool Azure_Initialize(void) {
     // Use Azure Sphere DPS (Device Provisioning Service) for authentication
     // This provides passwordless, certificate-based authentication
     
-    // CONFIGURATION REQUIRED: Replace "YOUR-SCOPE-ID-HERE" with your actual
-    // DPS ID Scope from Azure IoT Hub Device Provisioning Service
+    // CONFIGURATION REQUIRED: Update AZURE_DPS_SCOPE_ID in common/config.h
     AZURE_SPHERE_PROV_RETURN_VALUE prov_result =
         IoTHubDeviceClient_LL_CreateWithAzureSphereDeviceAuthProvisioning(
             "global.azure-devices-provisioning.net",  // DPS global endpoint
-            "YOUR-SCOPE-ID-HERE",                     // DPS ID Scope
+            AZURE_DPS_SCOPE_ID,                       // DPS ID Scope
             &iothub_handle);
     
     if (prov_result.result != AZURE_SPHERE_PROV_RESULT_OK) {

@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License v3.0
 
 #include "icm_handler.h"
+#include "../common/config.h"
 #include <applibs/log.h>
 #include <applibs/application.h>
 #include <errno.h>
@@ -14,9 +15,8 @@ bool ICM_Initialize(void) {
     Log_Debug("ICM: Initializing inter-core messaging\n");
     
     // Create socket for ICM communication with HLApp
-    // CONFIGURATION REQUIRED: Replace the Component ID in app_manifest.json
-    // with the actual HLApp Component ID before deployment
-    icm_socket_fd = Application_Connect("HLAPP-COMPONENT-ID-HERE");
+    // CONFIGURATION REQUIRED: Update HLAPP_COMPONENT_ID in common/config.h
+    icm_socket_fd = Application_Connect(HLAPP_COMPONENT_ID);
     
     if (icm_socket_fd < 0) {
         Log_Debug("ERROR: Failed to create ICM socket (errno=%d)\n", errno);

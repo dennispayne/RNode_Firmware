@@ -2,17 +2,9 @@
 // Licensed under the GNU General Public License v3.0
 
 #include "telemetry_validator.h"
+#include "../common/telemetry.h"
 #include <applibs/log.h>
 #include <string.h>
-
-// Expected telemetry message structure
-typedef struct {
-    uint32_t uptime_seconds;
-    uint32_t packets_received;
-    uint32_t packets_transmitted;
-    int16_t last_rssi[5];
-    uint8_t rssi_count;
-} TelemetryMessage;
 
 // CRITICAL SECURITY FUNCTION
 // This function ensures that ONLY operational telemetry is forwarded to Azure
@@ -24,12 +16,12 @@ bool Telemetry_Validate(const void *data, size_t size) {
     }
     
     // Check if size matches expected telemetry structure
-    if (size != sizeof(TelemetryMessage)) {
+    if (size != TELEMETRY_SIZE) {
         Log_Debug("SECURITY: Invalid telemetry size (expected=%zu, got=%zu)\n",
-                  sizeof(TelemetryMessage), size);
+                  TELEMETRY_SIZE, size);
         
         // If the size is significantly larger, it might be a payload leak attempt
-        if (size > sizeof(TelemetryMessage) * 2) {
+        if (size > TELEMETRY_SIZE * 2) {
             Log_Debug("SECURITY ALERT: Suspiciously large message - possible payload!\n");
         }
         
@@ -37,7 +29,7 @@ bool Telemetry_Validate(const void *data, size_t size) {
     }
     
     // Cast to telemetry structure for validation
-    const TelemetryMessage *msg = (const TelemetryMessage *)data;
+    const TelemetryData *msg = (const TelemetryData *)data;
     
     // Validate field ranges to ensure this is legitimate telemetry
     

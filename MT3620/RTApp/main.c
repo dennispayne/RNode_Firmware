@@ -16,21 +16,13 @@
 
 #include "rnode_core.h"
 #include "icm_handler.h"
+#include "../common/telemetry.h"
 
 // Application state
 static bool running = true;
 static int uart_fd = -1;
 static int led_rx_fd = -1;
 static int led_tx_fd = -1;
-
-// Telemetry data structure
-typedef struct {
-    uint32_t uptime_seconds;
-    uint32_t packets_received;
-    uint32_t packets_transmitted;
-    int16_t last_rssi[5];
-    uint8_t rssi_count;
-} TelemetryData;
 
 static TelemetryData telemetry = {0};
 
@@ -95,15 +87,18 @@ static void ProcessRadioOperations(void) {
             GPIO_SetValue(led_rx_fd, GPIO_Value_High);
         }
         
-        // Update RSSI history (mock data for now)
+        // Update RSSI history
+        // TODO: Replace with actual RSSI from LoRa module
+        int16_t rssi = -85; // Placeholder - implement actual RSSI retrieval
+        
         if (telemetry.rssi_count < 5) {
-            telemetry.last_rssi[telemetry.rssi_count++] = -85; // Example RSSI
+            telemetry.last_rssi[telemetry.rssi_count++] = rssi;
         } else {
             // Shift array and add new value
             for (int i = 0; i < 4; i++) {
                 telemetry.last_rssi[i] = telemetry.last_rssi[i + 1];
             }
-            telemetry.last_rssi[4] = -85;
+            telemetry.last_rssi[4] = rssi;
         }
     }
 }

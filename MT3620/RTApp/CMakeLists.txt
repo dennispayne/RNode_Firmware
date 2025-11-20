@@ -10,6 +10,8 @@ azsphere_configure_api(TARGET_API_SET "16")
 
 add_executable(${PROJECT_NAME} main.c rnode_core.c icm_handler.c)
 
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../common)
+
 target_link_libraries(${PROJECT_NAME} applibs gcc_s c)
 
 # Set output directory

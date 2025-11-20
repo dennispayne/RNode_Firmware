@@ -22,12 +22,19 @@ if ! command -v cmake &> /dev/null; then
     exit 1
 fi
 
+# Determine CMake generator
+CMAKE_GENERATOR="Ninja"
+if ! command -v ninja &> /dev/null; then
+    echo "Warning: Ninja not found, using Unix Makefiles instead"
+    CMAKE_GENERATOR="Unix Makefiles"
+fi
+
 # Build RTApp
 echo ""
 echo "Building RTApp (M4 Core)..."
 cd RTApp
 rm -rf build
-cmake -B build -S . -G "Ninja"
+cmake -B build -S . -G "$CMAKE_GENERATOR"
 cmake --build build
 echo "✓ RTApp build complete"
 
@@ -36,7 +43,7 @@ echo ""
 echo "Building HLApp (A7 Core)..."
 cd ../HLApp
 rm -rf build
-cmake -B build -S . -G "Ninja"
+cmake -B build -S . -G "$CMAKE_GENERATOR"
 cmake --build build
 echo "✓ HLApp build complete"
 
