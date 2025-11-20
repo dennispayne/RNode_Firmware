@@ -45,6 +45,12 @@ bool ICM_SendTelemetry(const void *data, size_t size) {
     // This should NEVER be called with Reticulum payload data
     
     // Create message header
+    // Note: Size is limited to 255 bytes. Telemetry should always be small.
+    if (size > 255) {
+        Log_Debug("ERROR: Telemetry size too large (%zu bytes, max 255)\n", size);
+        return false;
+    }
+    
     uint8_t header[2];
     header[0] = ICM_MSG_TELEMETRY;
     header[1] = (uint8_t)(size & 0xFF);

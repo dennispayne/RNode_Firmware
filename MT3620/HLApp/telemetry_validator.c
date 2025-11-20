@@ -40,10 +40,21 @@ bool Telemetry_Validate(const void *data, size_t size) {
     }
     
     // RSSI values should be in valid range (-150 to 0 dBm)
-    for (int i = 0; i < msg->rssi_count; i++) {
-        if (msg->last_rssi[i] < -150 || msg->last_rssi[i] > 0) {
-            Log_Debug("SECURITY: Invalid RSSI value (%d dBm)\n", msg->last_rssi[i]);
-            return false;
+    // Validate all array elements to prevent malicious data in unused slots
+    for (int i = 0; i < 5; i++) {
+        // For indices beyond rssi_count, value should be 0 (uninitialized)
+        if (i < msg->rssi_count) {
+            if (msg->last_rssi[i] < -150 || msg->last_rssi[i] > 0) {
+                Log_Debug("SECURITY: Invalid RSSI value at index %d (%d dBm)\n",
+                          i, msg->last_rssi[i]);
+                return false;
+            }
+        } else {
+            // Unused slots should be zero
+            if (msg->last_rssi[i] != 0) {
+                Log_Debug("SECURITY: Non-zero data in unused RSSI slot %d\n", i);
+                return false;
+            }
         }
     }
     

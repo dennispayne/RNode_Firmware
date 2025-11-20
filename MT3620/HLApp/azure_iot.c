@@ -104,11 +104,11 @@ bool Azure_Initialize(void) {
         return false;
     }
     
-    // Enable diagnostic sampling (optional)
-    bool diagnostic_sampling = true;
+    // Enable diagnostic sampling (optional) - 50% sampling rate
+    int diagnostic_sampling_percentage = 50;
     if (IoTHubDeviceClient_LL_SetOption(
             iothub_handle, OPTION_DIAGNOSTIC_SAMPLING_PERCENTAGE,
-            &diagnostic_sampling) != IOTHUB_CLIENT_OK) {
+            &diagnostic_sampling_percentage) != IOTHUB_CLIENT_OK) {
         Log_Debug("WARNING: Failed to enable diagnostic sampling\n");
     }
     

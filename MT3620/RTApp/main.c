@@ -88,8 +88,10 @@ static void ProcessRadioOperations(void) {
         }
         
         // Update RSSI history
-        // TODO: Replace with actual RSSI from LoRa module
-        int16_t rssi = -85; // Placeholder - implement actual RSSI retrieval
+        // TODO: CRITICAL - Replace with actual RSSI from LoRa module
+        // This placeholder will provide misleading telemetry data
+        // Implement: int16_t rssi = RNode_GetLastRSSI();
+        int16_t rssi = -85; // Placeholder - MUST be replaced before production use
         
         if (telemetry.rssi_count < 5) {
             telemetry.last_rssi[telemetry.rssi_count++] = rssi;
